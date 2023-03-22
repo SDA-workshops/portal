@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from sqlalchemy import (
-    create_engine,
     Column,
     String,
     Integer,
@@ -9,11 +8,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine(
-    "mysql+pymysql://root:qwerty@127.0.0.1:33061/portal"
-)
-
-Base = declarative_base(bind=engine)
+Base = declarative_base()
 
 
 class User(Base):
@@ -28,3 +23,14 @@ class User(Base):
 
     def __repr__(self):
         return f"User({self.nickname})"
+
+
+class Hashtag(Base):
+    __tablename__ = "hashtags"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+    creation_date = Column(DateTime, default=datetime.now)
+
+    def __repr__(self):
+        return f"Hashtag({self.name})"
